@@ -10,9 +10,9 @@ namespace DemoGraphQL.Stores
     public class MovieStore : IMovieStore
     {
         private readonly IList<Movie> _movies;
-        private readonly IEventStream<MovieCreatedEvent> _eventStream;
+        private readonly IEventStream<Movie> _eventStream;
 
-        public MovieStore(IEventStream<MovieCreatedEvent> eventStream)
+        public MovieStore(IEventStream<Movie> eventStream)
         {
             _movies = new List<Movie>
             {
@@ -97,7 +97,7 @@ namespace DemoGraphQL.Stores
             movie.Id = _movies.Max(x => x.Id) + 1;
             _movies.Add(movie);
 
-            _eventStream.AddEvent(new MovieCreatedEvent(movie.Id, movie.Title));
+            _eventStream.AddEvent(movie);
 
             return Task.FromResult(movie);
         }

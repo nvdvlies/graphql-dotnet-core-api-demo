@@ -1,4 +1,5 @@
 ﻿using DemoGraphQL.Events;
+using DemoGraphQL.Models;
 using GraphQL.Resolvers;
 using GraphQL.Types;
 using System.Reactive.Linq;
@@ -7,7 +8,7 @@ namespace DemoGraphQL.Schema
 {
     public class MoviesSubscription : ObjectGraphType
     {
-        public MoviesSubscription(IEventStream<MovieCreatedEvent> eventStream)
+        public MoviesSubscription(IEventStream<Movie> eventStream)
         {
             Name = "Subscription";
 
@@ -15,9 +16,9 @@ namespace DemoGraphQL.Schema
             {
                 Name = "movieCreated",
                 Arguments = new QueryArguments(),
-                Type = typeof(MovieCreatedEventType),
-                Resolver = new FuncFieldResolver<MovieCreatedEvent>(ctx => ctx.Source as MovieCreatedEvent),
-                Subscriber = new EventStreamResolver<MovieCreatedEvent>(ctx => eventStream.AsObservable())
+                Type = typeof(MovieType),
+                Resolver = new FuncFieldResolver<Movie>(ctx => ctx.Source as Movie),
+                Subscriber = new EventStreamResolver<Movie>(ctx => eventStream.AsObservable())
             });
         }
     }

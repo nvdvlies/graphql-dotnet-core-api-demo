@@ -35,7 +35,6 @@ namespace DemoGraphQL
             services.AddSingleton<MovieCreateInputType>();
             services.AddSingleton<MoviesMutation>();
 
-            services.AddSingleton<MovieCreatedEventType>();
             services.AddSingleton<MoviesSubscription>();
 
             services.AddSingleton<IDependencyResolver>(c => new FuncDependencyResolver(type => c.GetRequiredService(type)));
