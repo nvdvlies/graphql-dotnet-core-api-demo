@@ -101,6 +101,17 @@ namespace DemoGraphQL.Stores
 
             return Task.FromResult(movie);
         }
+
+        public Task<IDictionary<int, IEnumerable<Movie>>> GetMoviesDirectedByAsync(IEnumerable<int> directorIds)
+        {
+            return Task.FromResult(
+                _movies
+                    .Where(x => directorIds.Contains(x.DirectorId))
+                    .GroupBy(x => x.DirectorId)
+                    .ToDictionary(x => x.Key, x => x.AsEnumerable())
+                        as IDictionary<int, IEnumerable<Movie>>
+                );
+        }
     }
 
     public interface IMovieStore
@@ -109,5 +120,6 @@ namespace DemoGraphQL.Stores
         Task<IEnumerable<Movie>> GetMoviesByIdAsync(IEnumerable<int> ids);
         Task<IEnumerable<Movie>> GetMoviesAsync();
         Task<Movie> CreateAsync(Movie movie);
+        Task<IDictionary<int, IEnumerable<Movie>>> GetMoviesDirectedByAsync(IEnumerable<int> directorIds);
     }
 }
