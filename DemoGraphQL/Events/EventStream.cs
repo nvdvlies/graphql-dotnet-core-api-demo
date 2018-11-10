@@ -6,7 +6,7 @@ namespace DemoGraphQL.Events
 {
     public class EventStream<T> : IEventStream<T>
     {
-        private readonly ISubject<T> _stream = new ReplaySubject<T>(1);
+        private readonly ISubject<T> _stream = new Subject<T>();
 
         public void AddEvent(T @event)
         {
